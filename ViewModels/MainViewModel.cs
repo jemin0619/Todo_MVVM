@@ -5,27 +5,55 @@ using System.Text;
 using System.Threading.Tasks;
 using Todo_MVVM.ViewModels.Bases;
 using Todo_MVVM.Models;
+using Todo_MVVM.ViewModels.Commands;
+using Todo_MVVM.Models.Mappers;
+using System.Windows;
+using System.Collections.ObjectModel;
 
-namespace Todo_MVVM.ViewModels
+public class MainViewModel : ViewModelBase
 {
-    public class MainViewModel : ViewModelBase
+    private ObservableCollection<TodoItem>? _items;
+    public ObservableCollection<TodoItem>? Items
     {
-        private IList<TodoItem>? _items;
-        public IList<TodoItem>? Items
-        {
-            get => _items;
-            set => SetProperty(ref _items, value);
-        }
+        get => _items;
+        set => SetProperty(ref _items, value);
+    }
 
-        public MainViewModel()
-        {
-            Items = new List<TodoItem>
-            {
-                new TodoItem { Name = "Task 1", Category = "Work", IsCompleted = false },
-                new TodoItem { Name = "Task 2", Category = "Personal", IsCompleted = true },
-                new TodoItem { Name = "Task 3", Category = "Work", IsCompleted = false }
-            };
+    private AddingItem? _addingItem;
+    public AddingItem? AddingItem
+    {
+        get => _addingItem;
+        set => SetProperty(ref _addingItem, value);
+    }
 
-        }
+    private AddItemCommand? _addItemC;
+    public AddItemCommand? AddItemC
+    {
+        get => _addItemC;
+        set => SetProperty(ref _addItemC, value);
+    }
+
+    private AddingItemTodoItemMapper AddingItemTodoItemMapper { get; set; } = new AddingItemTodoItemMapper();
+
+    public MainViewModel()
+    {
+        Items = new ObservableCollection<TodoItem> {
+            new TodoItem() { Name = "Item 1", Category = "Category 1", IsCompleted = false },
+        };
+        AddingItem = new AddingItem();
+        AddItemC = new AddItemCommand(AddItem, CanAddItem);
+    }
+
+    public void AddItem(object? obj)
+    {
+        TodoItem newItem = AddingItemTodoItemMapper.AtoB(AddingItem);
+
+        Items?.Add(newItem);
+    }
+
+    public bool CanAddItem(object? obj)
+    {
+        return true;
     }
 }
+

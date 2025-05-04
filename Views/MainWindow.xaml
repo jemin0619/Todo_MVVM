@@ -24,9 +24,9 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <ToggleButton 
-                                        Width="10"
-                                        Height="10"
-                                        IsChecked="{Binding IsCompleted}" />
+                                Width="10"
+                                Height="10"
+                                IsChecked="{Binding IsCompleted, UpdateSourceTrigger=PropertyChanged}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -34,7 +34,7 @@
                             DisplayMemberBinding="{Binding Name}"
                             Header="Name"/>
                         <GridViewColumn
-                            DisplayMemberBinding="{Binding Category}"
+                             DisplayMemberBinding="{Binding Category}"
                             Header="Category"/>
                     </GridView.Columns>
                 </GridView>
@@ -45,17 +45,20 @@
             Margin="10, 0, 10, 10"
             Orientation="Horizontal">
             <TextBox 
+                Text="{Binding AddingItem.Name}"
                 Width="50"
                 Margin="5" />
             <TextBox 
-                Width="50"
-                Margin="5" />
-            <TextBox 
+                Text="{Binding AddingItem.Category}"
                 Width="50"
                 Margin="5" />
             <Button
+                Command="{Binding AddItemC}"
                 Width="25" 
-                Margin="5"/>
+                Margin="5" 
+                Content="Add" 
+                FontSize="10"/>
         </StackPanel>
+
     </Grid>
 </Window>

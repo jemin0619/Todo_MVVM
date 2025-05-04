@@ -19,7 +19,7 @@ namespace Todo_MVVM.Views
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new ViewModels.MainViewModel();
+            this.DataContext = new MainViewModel();
         }
     }
 }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Todo_MVVM.ViewModels.Bases
+namespace Todo_MVVM.Models.Mappers
 {
-    public class ViewModelBase : ObservableObject
+    internal interface IBaseMapper<Ta, Tb>
     {
-
+        Ta BtoA(Tb b);
+        Tb AtoB(Ta a);
     }
 }
