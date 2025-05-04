@@ -8,7 +8,7 @@ namespace Todo_MVVM.Models.Mappers
 {
     internal interface IBaseMapper<Ta, Tb>
     {
-        Ta BtoA(Tb b);
-        Tb AtoB(Ta a);
+        Ta Map(Tb b);
+        Tb Map(Ta a);
     }
 }

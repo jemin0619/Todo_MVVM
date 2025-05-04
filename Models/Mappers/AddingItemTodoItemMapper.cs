@@ -8,7 +8,7 @@ namespace Todo_MVVM.Models.Mappers
 {
     public class AddingItemTodoItemMapper : IBaseMapper<AddingItem, TodoItem>
     {
-        public AddingItem BtoA(TodoItem b)
+        public AddingItem Map(TodoItem b)
         {
             return new AddingItem
             {
@@ -16,7 +16,8 @@ namespace Todo_MVVM.Models.Mappers
                 Category = b.Category
             };
         }
-        public TodoItem AtoB(AddingItem a)
+
+        public TodoItem Map(AddingItem a)
         {
             return new TodoItem
             {
