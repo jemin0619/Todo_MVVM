@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Todo_MVVM.ViewModels.Bases;
 using Todo_MVVM.Models;
-using Todo_MVVM.ViewModels.Commands;
 using Todo_MVVM.Models.Mappers;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System.Windows.Controls.Primitives;
+using Todo_MVVM.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
@@ -26,14 +28,27 @@ public class MainViewModel : ViewModelBase
         set => SetProperty(ref _addingItem, value);
     }
 
-    private AddItemCommand? _addItemC;
-    public AddItemCommand? AddItemC
+    private AddingItemTodoItemMapper AddingItemTodoItemMapper { get; set; } = new AddingItemTodoItemMapper();
+
+    private ICommand _addButtonICommand;
+    public ICommand AddButtonICommand
     {
-        get => _addItemC;
-        set => SetProperty(ref _addItemC, value);
+        get
+        {
+            if (_addButtonICommand == null)
+            {
+                _addButtonICommand = new RelayCommand(AddButtonClicked,
+                    _ => AddingItem != null && AddingItem.IsValid());
+            }
+            return _addButtonICommand;
+        }
     }
 
-    private AddingItemTodoItemMapper AddingItemTodoItemMapper { get; set; } = new AddingItemTodoItemMapper();
+    private void AddButtonClicked(object? obj)
+    {
+        TodoItem newITem = AddingItemTodoItemMapper.Map(AddingItem);
+        Items?.Add(newITem);
+    }
 
     public MainViewModel()
     {
@@ -41,19 +56,6 @@ public class MainViewModel : ViewModelBase
             new TodoItem() { Name = "Item 1", Category = "Category 1", IsCompleted = false },
         };
         AddingItem = new AddingItem();
-        AddItemC = new AddItemCommand(AddItem, CanAddItem);
-    }
-
-    public void AddItem(object? obj)
-    {
-        TodoItem newItem = AddingItemTodoItemMapper.AtoB(AddingItem);
-
-        Items?.Add(newItem);
-    }
-
-    public bool CanAddItem(object? obj)
-    {
-        return true;
     }
 }
 
